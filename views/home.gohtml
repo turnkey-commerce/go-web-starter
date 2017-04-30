@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content="30">
+  {{template "_head.gohtml" .Title}}
+</head>
+<body role="document">
+  {{template "_nav.gohtml" .Nav}}
+  <div class="container">
+    {{range .Messages}}
+      <div class="alert alert-danger" role="alert">{{.}}</div>
+    {{end}}
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h1>Monitored Sites Status</h1>
+        <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-md-4">Website</th>
+              <th class="col-md-2">Status</th>
+              <th class="col-md-3">Since</th>
+              <th class="col-md-3">Last Checked</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .Sites}}
+              <tr class="{{.CSSClass}}">
+                <td>{{.Name}}</td>
+                <td class="text-{{.CSSClass}}">{{.Status}}</td>
+                <td>{{.HowLong}}{{if .HasNoStatusChanges}}<b>*</b>{{end}}</td>
+                <td>{{.LastChecked}}</td>
+              </tr>
+            {{end}}
+          </tbody>
+        </table>
+        {{if .HasSiteWithNoStatusChanges}}<p><b>*</b>Since GoPingSites first pinged this site</p>{{end}}
+        <p><i><div id="divLocal" style="font-style: italic;"></i></p>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->
+    {{template "_footer.gohtml"}}
+    <script src="js/moment.min.js"></script>
+    <script language="JavaScript">
+      $(window).load(function() {
+        var divLocal = $('#divLocal');
+        var utcTime = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+        var localTimeJS  = moment.utc(utcTime).toDate();
+        var localTime = 'Page refreshed: ' + moment(localTimeJS).format('YYYY-MM-DD h:mm:ss A');
+        divLocal.text(localTime);
+      });
+    </script>
+</body>
+</html>

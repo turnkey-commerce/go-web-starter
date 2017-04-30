@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{template "_head.gohtml" .Title}}
+</head>
+<body role="document">
+{{template "_nav.gohtml" .Nav}}
+  <div class="container">
+    {{range .Messages}}
+      <div class="alert alert-danger" role="alert">{{.}}</div>
+    {{end}}
+    <form class="form-signin" method="POST" action="/login">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <label for="inputUsername" class="sr-only">Username</label>
+      <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      {{ .CsrfField }}
+    </form>
+  </div> <!-- /container -->
+  {{template "_footer.gohtml"}}
+</body>
+</html>

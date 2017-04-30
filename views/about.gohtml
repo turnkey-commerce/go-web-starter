@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{template "_head.gohtml" .Title}}
+</head>
+<body role="document">
+  {{template "_nav.gohtml" .Nav}}
+  <div class="container theme-showcase" role="main">
+    {{range .Messages}}
+      <div class="alert alert-danger" role="alert">{{.}}</div>
+    {{end}}
+    <div class="jumbotron">
+      <h1>Monitor Your Websites</h1>
+      <p>Go Ping Sites allows you to set up monitoring for multiple websites and will notify you via text and/or email when your site goes down or is back up again.</p>
+    </div>
+    <p><i>Version: {{.Version}}</i></p>
+  </div> <!-- /container -->
+  {{template "_footer.gohtml"}}
+</body>
+</html>

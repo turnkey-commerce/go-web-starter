@@ -1,0 +1,83 @@
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="text"  class="form-control" name="name" id="name" value="{{.Site.Name}}">
+  {{ with .Errors.Name }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="url">URL</label>
+  <input type="text" class="form-control" name="url" id="url" value="{{.Site.URL}}">
+  {{ with .Errors.URL }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="isActive">
+    <input type="checkbox" name="isActive" id="isActive" {{if .Site.IsActive}}checked{{end}}>
+    Site Active?
+  </label>
+  {{ with .Errors.IsActive }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="pingIntervalSeconds">Ping Rate (seconds)</label>
+  <input type="text" class="form-control" name="pingIntervalSeconds" id="pingIntervalSeconds" value="{{.Site.PingIntervalSeconds}}">
+  {{ with .Errors.PingIntervalSeconds }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="timeoutSeconds">Timeout (seconds)</label>
+  <input type="text" class="form-control" name="timeoutSeconds" id="timeoutSeconds" value="{{.Site.TimeoutSeconds}}">
+  {{ with .Errors.TimeoutSeconds }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="contentExpected">HTML Content Must Contain (optional)</label>
+  <input type="text" class="form-control" name="contentExpected" id="contentExpected" value="{{.Site.ContentExpected}}">
+  {{ with .Errors.ContentExpected }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+<div class="form-group">
+  <label for="contenUnexpected">HTML Content Must <b>Not</b> Contain (optional)</label>
+  <input type="text" class="form-control" name="contentUnexpected" id="contentUnexpected" value="{{.Site.ContentUnexpected}}">
+  {{ with .Errors.ContentUnexpected }}
+    <div class="error">{{ . }}</div>
+  {{ end }}
+</div>
+
+<div class="form-group">
+  <label for="assignedContacts">Assigned Contacts</label>
+  <div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-1 text-center">Assigned?</th>
+        <th class="col-md-2">Name</th>
+        <th class="col-md-3">Email</th>
+        <th class="col-md-1 text-center">Email<br />Active?</th>
+        <th class="col-md-2">Text Number</th>
+        <th class="col-md-1 text-center">Text<br />Active?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .AllContacts}}
+        {{if .IsAssigned}}<input type="hidden" name="siteContacts" value="{{.ContactID}}"> {{end}}
+        <tr {{.IsAssigned | displayActiveClass}}>
+          <td class="text-center"><input type="checkbox" name="selectedContacts" id="selectedContacts" value="{{.ContactID}}" {{if .IsAssigned}}checked{{end}}></td>
+          <td>{{.Name}}</td>
+          <td>{{.EmailAddress}}</td>
+          <td class="text-center">{{.EmailActive | displayBool}}</td>
+          <td>{{.SmsNumber}}</td>
+          <td class="text-center">{{.SmsActive | displayBool}}</td>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+  </div>
+</div>
+{{ .CsrfField }}
