@@ -2,6 +2,8 @@ package config
 
 import (
 	"log"
+	"os"
+	"path"
 
 	"github.com/BurntSushi/toml"
 )
@@ -18,6 +20,10 @@ var Settings struct {
 }
 
 func init() {
+	// Check if it exists at the top level and if not look in the config directory
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		configFile = path.Join("config", configFile)
+	}
 	if _, err := toml.DecodeFile(configFile, &Settings); err != nil {
 		log.Fatal(err)
 	}

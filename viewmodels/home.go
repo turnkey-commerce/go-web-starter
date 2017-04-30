@@ -13,14 +13,16 @@ type NavViewModel struct {
 	IsAuthenticated bool
 	Messages        []string
 	UserName        string
+	AppName         string
 }
 
 // GetHomeViewModel populates the items required by the home.gohtml view
-func GetHomeViewModel(messages []string, isAuthenticated bool, userName string) HomeViewModel {
+func GetHomeViewModel(messages []string, appName string, isAuthenticated bool, userName string) HomeViewModel {
 	nav := NavViewModel{
 		Active:          "home",
 		IsAuthenticated: isAuthenticated,
 		UserName:        userName,
+		AppName:         appName,
 	}
 
 	result := HomeViewModel{

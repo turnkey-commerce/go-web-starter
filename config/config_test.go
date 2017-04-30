@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/turnkey-commerce/go-ping-sites/config"
+	"github.com/turnkey-commerce/go-web-starter/config"
 )
 
 func TestWebsiteConfiguration(t *testing.T) {

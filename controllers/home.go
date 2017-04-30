@@ -9,12 +9,16 @@ import (
 
 type homeController struct {
 	template *template.Template
+	appName  string
 }
 
-func (controller *homeController) get(rw http.ResponseWriter, req *http.Request) {
+func (controller *homeController) get(w http.ResponseWriter, r *http.Request) {
 	var messages []string
 	isAuthenticated := false
 	userName := "test"
-	vm := viewmodels.GetHomeViewModel(messages, isAuthenticated, userName)
-	controller.template.Execute(rw, vm)
+	vm := viewmodels.GetHomeViewModel(messages, controller.appName, isAuthenticated, userName)
+
+	if err := controller.template.Execute(w, vm); err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 }

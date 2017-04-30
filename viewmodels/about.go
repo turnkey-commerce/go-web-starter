@@ -9,10 +9,11 @@ type AboutViewModel struct {
 }
 
 // GetAboutViewModel populates the items required by the about.gohtml view
-func GetAboutViewModel(messages []string, isAuthenticated bool, userName string, version string) AboutViewModel {
+func GetAboutViewModel(messages []string, appName string, isAuthenticated bool, userName string, version string) AboutViewModel {
 	nav := NavViewModel{
 		Active:          "about",
 		IsAuthenticated: isAuthenticated,
+		AppName:         appName,
 	}
 
 	result := AboutViewModel{

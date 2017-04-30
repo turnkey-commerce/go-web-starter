@@ -13,28 +13,36 @@ import (
 
 // Register the handlers for a given route.
 func Register(templates *template.Template, appName string, version string, cookieKey []byte, secureCookie bool) {
-
-	// setup CSRF protection for the post requests.
-	CSRF := csrf.Protect(cookieKey, csrf.Secure(secureCookie))
 	router := mux.NewRouter()
 
-	hc := new(homeController)
-	hc.template = templates.Lookup("home.gohtml")
+	// Home Controller
+	hc := homeController{
+		template: templates.Lookup("home.gohtml"),
+		appName:  appName,
+	}
 	router.HandleFunc("/", hc.get)
 
-	ac := new(aboutController)
-	ac.template = templates.Lookup("about.gohtml")
-	ac.version = version
+	// About Controller
+	ac := aboutController{
+		template: templates.Lookup("about.gohtml"),
+		version:  version,
+		appName:  appName,
+	}
 	router.HandleFunc("/about", ac.get)
 
-	lc := new(loginController)
-	lc.template = templates.Lookup("login.gohtml")
+	lc := loginController{
+		template: templates.Lookup("login.gohtml"),
+		appName:  appName,
+	}
 	router.HandleFunc("/login", lc.get).Methods("GET")
 	router.HandleFunc("/login", lc.post).Methods("POST")
 
 	loc := new(logoutController)
+	// No template needed for this one.
 	router.HandleFunc("/logout", loc.get)
 
+	// setup CSRF protection for the post requests.
+	CSRF := csrf.Protect(cookieKey, csrf.Secure(secureCookie))
 	// Wrap the router in the CSRF protection.
 	http.Handle("/", CSRF(router))
 
