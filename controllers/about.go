@@ -13,10 +13,12 @@ type aboutController struct {
 	appName  string
 }
 
-func (controller *aboutController) get(rw http.ResponseWriter, req *http.Request) {
+func (controller *aboutController) get(w http.ResponseWriter, req *http.Request) {
 	var messages []string
 	isAuthenticated := false
 	userName := "test"
 	vm := viewmodels.GetAboutViewModel(messages, controller.appName, isAuthenticated, userName, controller.version)
-	controller.template.Execute(rw, vm)
+	if err := controller.template.Execute(w, vm); err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 }

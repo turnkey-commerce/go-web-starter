@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/csrf"
-	"github.com/turnkey-commerce/go-ping-sites/viewmodels"
+	"github.com/turnkey-commerce/go-web-starter/viewmodels"
 )
 
 type loginController struct {
@@ -15,16 +15,19 @@ type loginController struct {
 }
 
 // get creates the "/login" form.
-func (controller *loginController) get(rw http.ResponseWriter, req *http.Request) {
+func (controller *loginController) get(w http.ResponseWriter, req *http.Request) {
 	var messages []string
-	vm := viewmodels.GetLoginViewModel(messages)
+	vm := viewmodels.GetLoginViewModel(messages, controller.appName)
 	vm.CsrfField = csrf.TemplateField(req)
-	controller.template.Execute(rw, vm)
+	if err := controller.template.Execute(w, vm); err != nil {
+		http.Error(w, err.Error(), 500)
+	}
 }
 
 // post handles "/login" post requests.
 func (controller *loginController) post(rw http.ResponseWriter, req *http.Request) {
 	username := req.PostFormValue("username")
-	password := req.PostFormValue("password")
-	fmt.Println(username, password)
+	// Do the processing of the user login
+	//password := req.PostFormValue("password")
+	fmt.Println(username)
 }
